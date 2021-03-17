@@ -192,6 +192,23 @@ function loop() {
     // Rotação sobre o  eixo Y com o angulo : anguloDeRotacao
     finalMatrix = math.multiply(CriarMatrizRotacaoY(anguloDeRotacao), finalMatrix);
 
+    // DESAFIOS 
+    // Desafio 1 
+    // Primeiro Passo - Obter Tamanho Original do Triangulo
+    // finalMatrix = math.multiply(CriarMatrizEscala(4, 4, 4), finalMatrix);
+
+    // Segundo Passo - Diminuir tamanho do triangulo em 25%
+    // finalMatrix = math.multiply(CriarMatrizEscala(0.75, 0.75, 0.75), finalMatrix);
+
+    // Desafio 2 
+    // Primeiro Passo - Efetuar Translação para (0,0,0)
+    //  finalMatrix = math.multiply(CriarMatrizTranslacao(0.0, 0.0, 0.0), finalMatrix);
+    // // Segundo Passo - Efetuar Translação para o canto inferior esquerdo
+    //  finalMatrix = math.multiply(CriarMatrizTranslacao(-0.75, -0.5, 0.0), finalMatrix);
+
+    // Desafio 3 
+    finalMatrix = math.multiply(CriarMatrizRotacaoX(anguloDeRotacao), finalMatrix);
+
 
 
     // Conversão do array 2D para uma dimensão

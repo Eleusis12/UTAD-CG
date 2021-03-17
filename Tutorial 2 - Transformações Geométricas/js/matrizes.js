@@ -50,7 +50,7 @@ function CriarMatrizRotacaoX(angulo) {
     return [
         [1, 0, 0, 0],
         [0, Math.cos(radianos), -Math.sin(radianos), 0],
-        [0, Math.cos(radianos), Math.cos(radianos), 0],
+        [0, Math.sin(radianos), Math.cos(radianos), 0],
         [0, 0, 0, 1]
     ];
 
@@ -88,7 +88,7 @@ function CriarMatrizRotacaoZ(angulo) {
 
     // Matriz final de Rotação no eixo do x
     return [
-        [Math.cos(radianos), Math.sin(radianos), 0, 0],
+        [Math.cos(radianos), -Math.sin(radianos), 0, 0],
         [Math.sin(radianos), Math.cos(radianos), 0, 0],
         [0, 0, 1, 0],
         [0, 0, 0, 1]
