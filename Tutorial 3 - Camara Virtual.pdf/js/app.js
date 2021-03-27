@@ -213,6 +213,7 @@ function loop() {
     // Foi adicionado esta transformação de translação para podermos mexer na posição do objeto no eixo do z
     finalMatrix = math.multiply(CriarMatrizTranslacao(0, 0, 1), finalMatrix);
     // finalMatrix = math.multiply(CriarMatrizTranslacao(0, 0, 19), finalMatrix);
+    // finalMatrix = math.multiply(CriarMatrizTranslacao(0, 0, 99), finalMatrix);
 
 
 
@@ -233,6 +234,7 @@ function loop() {
     // distancia = 10, comprimento da camera de 4 unidades, altura de 3 unidades, plano anterior de 0.1 unidades, 
     // plano posterior de 100 unidadeds.
     var projectionMatrix = MatrizPerspetiva(10, 4, 3, 0.1, 100);
+    //var projectionMatrix = MatrizOrtografica(4, 3, 0.1, 100);
     var newProjectionMatrix = [];
 
     for (i = 0; i < projectionMatrix.length; i++) {

@@ -1,0 +1,1 @@
+Os desafios estão devidamente identificados no código, para os encontrar deve pesquisar pela palavra Desafio (com Ctrl + f ).

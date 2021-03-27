@@ -1,0 +1,13 @@
+1 -Indica o que aconteceu e o porquê de ter acontecido.
+
+A Alteração no código causou o movimento do triângulo nos eixos dos z. O aumento da coordenada z implica que haverá uma maior distância entre o objeto em estudo (o triângulo)
+com a câmara. Dado que esta foi a única Alteração efetuada no código, o tamanho do triângulo descreceu, isto deve-se ao facto de estarmos a utilizar a projecção 
+em perspetiva. De forma resumida, esta linha de código vai aumentar o distanciamento do objeto com a câmera e dado que estamos a usar a projecção em perspetiva causa 
+a diminuição do tamanho do triângulo.
+
+2 –Indica o que aconteceu ao triângulo e o porquê de ter acontecido.
+A primeira alteração pedida pelo tutorial estabeleceu que o triângulo iria ser visto através de uma projecção ortográfica. Isto causa a diminuição do tamanho do triângulo. 
+Isto deve-se ao facto de com esta projecção não existe o conceito de distanciamento. 
+Comparativamente, antes de efetuar a alteração, o triângulo era maior pelos simples facto por também estarmos a aproximar muito o objeto com a câmera e utilizando uma projecção em perspetiva.
+A segunda alteração não teve qualquer efeito da visualização do triângulo, porque como mencionei anteriormente, com a projecção ortográfica o distanciamento do objeto com
+a câmera é irrelevante e como tal não tem qualquer efeito na sua demonstração. Com esta linha de código só estaríamos a aproximar o objeto da câmera.
