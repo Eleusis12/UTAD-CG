@@ -46,6 +46,9 @@ var vertexPosition;
 // Variável que irá guardar o conjunto de vértices que constituem cada triângulo
 var vertexIndex;
 
+// Variavel que guartda na memória da GPU a Textura que será utilizada
+var boxTexture = GL.createTexture();
+
 // Buffer que irá guardar todos o conjunto de vértices na GPU
 var gpuIndexBuffer = GL.createBuffer();
 
@@ -126,132 +129,47 @@ function PrepareProgram() {
 }
 
 function PrepareTriangleData() {
-  //   // prettier-ignore
-  //   vertexPosition = [
-  //     // X, Y, Z, R, G, B
-
-  //     // Frente
-
-  //     0,0,0,0,0,0,
-  //     0,1,0,0,1,0,
-  //     1,1,0,1,1,0,
-  //     1,0,0,1,0,0,
-
-  //     // Direita
-  //     1,0,0,1,0,0,
-  //     1,1,0,1,1,0,
-  //     1,1,1,1,1,1,
-  //     1,0,1,1,0,1,
-
-  //     // Trás
-  //     1,0,1,1,0,1,
-  //     1,1,1,1,1,1,
-  //     0,1,1,0,1,1,
-  //     0,0,1,0,0,1,
-
-  //     // Esquerda
-  //     0,0,1,0,0,1,
-  //     0,1,1,0,1,1,
-  //     0,1,0,0,1,0,
-  //     0,0,0,0,0,0,
-
-  //     // Cima
-  //     0,1,0,0,1,0,
-  //     0,1,1,0,1,1,
-  //     1,1,1,1,1,1,
-  //     1,1,0,1,1,0,
-
-  //     // Baixo
-  //     1,0,0,1,0,0,
-  //     1,0,1,1,0,1,
-  //     0,0,1,0,0,1,
-  //     0,0,0,0,0,0,
-  //   ];
-
-  // Desafio 2
-  // prettier-ignore
-  //   vertexPosition = [
-  //     // X, Y, Z, R, G, B
-
-  //     // Frente
-
-  //     0,0,0,0,0,0,
-  //     0,1,0,0,1,0,
-  //     2,1,0,1,1,0,
-  //     2,0,0,1,0,0,
-
-  //     // Direita
-  //     2,0,0,1,0,0,
-  //     2,1,0,1,1,0,
-  //     2,1,1,1,1,1,
-  //     2,0,1,1,0,1,
-
-  //     // Trás
-  //     2,0,1,1,0,1,
-  //     2,1,1,1,1,1,
-  //     0,1,1,0,1,1,
-  //     0,0,1,0,0,1,
-
-  //     // Esquerda
-  //     0,0,1,0,0,1,
-  //     0,1,1,0,1,1,
-  //     0,1,0,0,1,0,
-  //     0,0,0,0,0,0,
-
-  //     // Cima
-  //     0,1,0,0,1,0,
-  //     0,1,1,0,1,1,
-  //     2,1,1,1,1,1,
-  //     2,1,0,1,1,0,
-
-  //     // Baixo
-  //     2,0,0,1,0,0,
-  //     2,0,1,1,0,1,
-  //     0,0,1,0,0,1,
-  //     0,0,0,0,0,0,
-  //   ];
-
-  // Desafio 5
+  // Em vez de termos 3 valores para as cores RGB vamos ter apenas 2 valores, que são as coordeandas UV
   // prettier-ignore
   vertexPosition = [
-      // X, Y, Z, R, G, B
+      // X, Y, Z, U,V
 
-      // Frente
+      // Frente - Terceira Imagem
 
-      0,0,0,0,0,0,
-      0,1,0,0,0,0,
-      1,1,0,0,0,0,
-      1,0,0,0,0,0,
+      0,0,0,    0,0.5,
+      0,1,0,    0,1,
+      1,1,0,    0.5,1,
+      1,0,0,    0.5,0.5,
 
-      // Direita
-      1,0,0,1,0.75,0.5,
-      1,1,0,1,0.75,0.5,
-      1,1,1,1,0.75,0.5,
-      1,0,1,1,0.75,0.5,
+      // Direita     - Quarta Imagem
+      1,0,0,     0.5, 0.5  ,
+      1,1,0,     0.5,1,
+      1,1,1,     1,1,
+      1,0,1,     1,0.5,
 
-      // Trás (De momento não é visivel)
-      1,0,1,1,0,1,
-      1,1,1,1,0,1,
-      0,1,1,1,0,1,
-      0,0,1,1,0,1,
+      // Trás    - Primeira Imagem
+      1,0,1,     0, 0  ,
+      1,1,1,     0,0.5,
+      0,1,1,     0.5,0.5,
+      0,0,1,     0.5,0,
 
-      // Esquerda
-      0,0,1,0,0.15,0.2,
-      0,1,1,0,0.15,0.2,
-      0,1,0,0,0.15,0.2,
-      0,0,0,0,0.15,0.2,
+      // Esquerda   - Segunda Imagem
+      0,0,1,     0.5, 0.5  ,
+      0,1,1,     0.5,1,
+      0,1,0,     1,1,
+      0,0,0,     1,0.5,
 
-      // Cima
-      0,1,0,0.10,0.10,0,
-      0,1,1,0.10,0.10,0,
-      1,1,1,0.10,0.10,0,
-      1,1,0,0.10,0.10,0,
+      // Cima    - Terceira Imagem
+      0,1,0,     0.5, 0  ,
+      0,1,1,     0.5,0.5,
+      1,1,1,     1,0.5,
+      1,1,0,     1,0,
 
-      // Baixo
-      1,0,0,0,1,1,
-      1,0,1,0,1,1,
-      0,0,1,0,1,1,
-      0,0,0,0,1,1,
+      // Baixo    - Quarta Imagem
+      1,0,0,     0.5, 0  ,
+      1,0,1,     0.5,0.5,
+      0,0,1,     1,0.5,
+      0,0,0,     1,0,
     ];
 
   // Array que guarda qual os indices do array anterior que constituem cada triangulo
@@ -322,6 +240,29 @@ function PrepareTriangleData() {
     new Uint16Array(vertexIndex), // Agora OS VALORES SÃO DO TIPO Unsigned int 16
     GL.STATIC_DRAW
   ); // Os valores são estáticos e não irão mudar ao longo do tempo
+
+  // Primeiro temos que fazer bind à textura
+  GL.bindTexture(GL.TEXTURE_2D, boxTexture);
+
+  //Faz clamp à borada no eixo do U
+  GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+
+  // Faz clamp à borda do eixo V
+  GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+
+  // Indica como deve ser escalada a textura
+  GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
+  GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+
+  // Passamos a imagem que está no documento escndida através do id da imagem
+  GL.texImage2D(
+    GL.TEXTURE_2D, // Tipo da Textura
+    0, // Deatlhes da imagem (0 é o valor por defeito)
+    GL.RGBA, // Tipo de Imagem
+    GL.RGBA, // Tipo de textura que vai ser aplicada a imagem
+    GL.UNSIGNED_BYTE, // Tipo de valores da textura
+    document.getElementById("4signsImage") // Imagem que deve ser passada para o sampler
+  );
 }
 
 function SendDataToShaders() {
@@ -329,33 +270,30 @@ function SendDataToShaders() {
     program,
     "vertexPosition"
   );
-  var vertexColorAttributeLocation = GL.getAttribLocation(
-    program,
-    "vertexColor"
-  );
+  var texCoordAttributeLocation = GL.getAttribLocation(program, "texCoords");
 
   GL.vertexAttribPointer(
     vertexPositionAttributeLocation,
     3,
     GL.FLOAT,
     false,
-    6 * Float32Array.BYTES_PER_ELEMENT,
+    5 * Float32Array.BYTES_PER_ELEMENT,
     0 * Float32Array.BYTES_PER_ELEMENT
   );
 
   GL.vertexAttribPointer(
-    vertexColorAttributeLocation,
-    3,
+    texCoordAttributeLocation,
+    2,
     GL.FLOAT,
     false,
-    6 * Float32Array.BYTES_PER_ELEMENT,
+    5 * Float32Array.BYTES_PER_ELEMENT,
     3 * Float32Array.BYTES_PER_ELEMENT
   );
 
   // Agora é necessário ativar os atributos que vão ser utilizados e para isso utilizamos a linha seguinte
   // Temos de fazer isso para cada um das variáveis que pretendemos utilizar
   GL.enableVertexAttribArray(vertexPositionAttributeLocation);
-  GL.enableVertexAttribArray(vertexColorAttributeLocation);
+  GL.enableVertexAttribArray(texCoordAttributeLocation);
 
   //Guarda a localização da variável 'transformationMatrix do vertexShader'
   finalMatrixLocation = GL.getUniformLocation(program, "transformationMatrix");
@@ -370,14 +308,6 @@ function SendDataToShaders() {
   projectionMatrixLocation = GL.getUniformLocation(program, "projectionMatrix");
   //Guarda a localização da variável 'viewportMatrix do vertexShader'
   viewportMatrixLocation = GL.getUniformLocation(program, "viewportMatrix");
-
-  // Indica que vais utilizar este programa
-  // GL.useProgram(program);
-
-  // GL.drawArrays(
-  //     GL.TRIANGLES,
-  //     0,
-  //     3);
 }
 
 // Função responsável pela animação
@@ -407,15 +337,9 @@ function loop() {
   //finalMatrix = math.multiply(CriarMatrizTranslacao(0.5, 0.5, 0), finalMatrix);
 
   // Reduz objeto em 4 vezes
-  finalMatrix = math.multiply(CriarMatrizEscala(0.25, 0.25, 0.25), finalMatrix);
+  finalMatrix = math.multiply(CriarMatrizEscala(0.1, 0.1, 0.1), finalMatrix);
 
   // Rotação sobre o  eixo Y com o angulo : anguloDeRotacao
-  finalMatrix = math.multiply(
-    CriarMatrizRotacaoY(anguloDeRotacao),
-    finalMatrix
-  );
-
-  // Desafio 4
   finalMatrix = math.multiply(
     CriarMatrizRotacaoX(anguloDeRotacao * 0.6),
     finalMatrix
@@ -425,10 +349,12 @@ function loop() {
     finalMatrix
   );
 
-  // Foi adicionado esta transformação de translação para podermos mexer na posição do objeto no eixo do z
-  finalMatrix = math.multiply(CriarMatrizTranslacao(0, 0, 1), finalMatrix);
+  finalMatrix = math.multiply(
+    CriarMatrizRotacaoX(anguloDeRotacao),
+    finalMatrix
+  );
 
-  // DESAFIO 1 e Desafio 3- De modo a concentrar o cubo completo no ecrã, vamos mover o cubo em uma unidade no eixo dos z, de modo a "afastar" o objeto da câmara
+  // Foi adicionado esta transformação de translação para podermos mexer na posição do objeto no eixo do z
   finalMatrix = math.multiply(CriarMatrizTranslacao(0, 0, 1), finalMatrix);
 
   // Conversão do array 2D para uma dimensão
